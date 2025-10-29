@@ -1,0 +1,11 @@
+#root {
+  display: flex;
+  justify-content: center;
+  /* centre horizontalement */
+  align-items: center;
+  /* centre verticalement */
+  height: 100vh;
+  /* 100% de la hauteur de l’écran */
+  background-color: #eef2f5;
+  /* petit fond clair */
+}
