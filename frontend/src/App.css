@@ -1,11 +1,184 @@
+/* ----------- POLICES ET STYLE GLOBAL ----------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #f9f9f9;
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
 #root {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+/* ----------- NAVIGATION ----------- */
+.nav {
   display: flex;
   justify-content: center;
-  /* centre horizontalement */
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.nav a {
+  text-decoration: none;
+  font-weight: 900;
+  color: #555;
+  font-size: 1rem;
+  position: relative;
+  padding-bottom: 0.2rem;
+  transition: all 0.2s ease;
+}
+
+.nav a::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #000;
+  transition: width 0.3s;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.nav a:hover::after {
+  width: 100%;
+}
+
+.nav a:hover {
+  color: #000;
+}
+
+/* ----------- FORMULAIRES ----------- */
+form {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+}
+
+form h2 {
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.2s;
+  background-color: #fff;
+}
+
+input:focus {
+  border-color: #000;
+  outline: none;
+}
+
+/* ----------- BOUTONS ----------- */
+button {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+button:hover {
+  background-color: #333;
+}
+
+/* ----------- PROFIL ----------- */
+.profile-container {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  /* centre verticalement */
-  height: 100vh;
-  /* 100% de la hauteur de l’écran */
-  background-color: #eef2f5;
-  /* petit fond clair */
+  gap: 0.75rem;
+}
+
+.profile-container h2 {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.profile-container p {
+  font-size: 1rem;
+  color: #555;
+  margin: 0.25rem 0;
+}
+
+.profile-container button {
+  margin-top: 1rem;
+}
+
+form,
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* centre tous les éléments */
+  width: 100%;
+  max-width: 360px;
+  gap: 1rem;
+}
+
+form input,
+form button {
+  width: 100%;
+  /* s'assure que tout fait la même largeur */
+  box-sizing: border-box;
+}
+
+/* ----------- PAGE D'ACCUEIL ----------- */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  text-align: center;
+}
+
+.home-title {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.home-link {
+  font-size: 1.1rem;
+  color: #007aff;
+  /* bleu iOS élégant */
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.home-link:hover {
+  opacity: 0.8;
+  transform: translateY(-2px);
 }

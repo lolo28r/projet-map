@@ -36,7 +36,7 @@ export default function LoginForm() {
             <input
                 type="text"
                 name="email"
-                placeholder="mail"
+                placeholder="Mail"
                 value={form.email}
                 onChange={handleChange}
                 required

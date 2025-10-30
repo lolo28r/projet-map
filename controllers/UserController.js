@@ -106,7 +106,13 @@ exports.updateUser = async (req, res) => {
 };
 
 exports.deleteUser = async (req, res) => {
+    console.log("req.userId =", req.userId);
+    console.log("req.params.id =", req.params.id);
     try {
+        if (req.userId !== req.params.id) {
+            return res.status(403).json({ error: "Action non autorisée" });
+        }
+
         const user = await User.findByIdAndDelete(req.params.id);
         if (!user) return res.status(404).json({ error: 'User not found' });
         res.status(200).json({ message: 'User deleted successfully' });

@@ -26,16 +26,34 @@ function Profile() {
 
     }, [navigate]);
 
+    const handleDelete = async () => {
+
+        if (!window.confirm("Êtes-vous sûr de vouloir supprimer votre compte ?")) return;
+
+
+        const token = localStorage.getItem("token");
+
+
+        await axios.delete(`http://localhost:3000/api/users/${user._id}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+
+        localStorage.removeItem("token");
+        navigate("/register");
+    };
     if (!user) return <p>Chargement...</p>;
 
     return (
-        <div style={{ maxWidth: '400px', margin: '50px auto', textAlign: 'center' }}>
+        <div className="profile-container">
             <h2>Profil utilisateur</h2>
             <p>Nom : {user.name}</p>
             <p>Nickname : {user.nickname}</p>
             <p>Email : {user.email}</p>
+            <button onClick={handleDelete}>Supprimer mon compte</button>
         </div>
     );
+
 }
 
 export default Profile;
