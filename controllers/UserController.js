@@ -76,17 +76,17 @@ exports.createUser = async (req, res) => {
 
 
 
-
-
 exports.updateUser = async (req, res) => {
     try {
+        // Vérifier que l'utilisateur modifie son propre compte
+        if (req.userId !== req.params.id) {
+            return res.status(403).json({ error: "Action non autorisée" });
+        }
+
         const updates = { ...req.body };
-
-
         if (updates.password) {
             updates.password = await bcrypt.hash(updates.password, 10);
         }
-
 
         const updatedUser = await User.findByIdAndUpdate(
             req.params.id,
