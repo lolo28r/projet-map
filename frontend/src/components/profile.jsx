@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 function Profile() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [user, setUser] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({ name: "", nickname: "", password: "" });
 
     useEffect(() => {
         const token = localStorage.getItem("token");
+
         if (!token) {
-            navigate("/login");
+            // Redirige vers login avec info de provenance
+            navigate("/login", { state: { from: location.pathname } });
             return;
         }
 
@@ -24,9 +27,10 @@ function Profile() {
             })
             .catch(err => {
                 console.error(err);
-                navigate("/login");
+                localStorage.removeItem("token");
+                navigate("/login", { state: { from: location.pathname } });
             });
-    }, [navigate]);
+    }, [navigate, location.pathname]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -34,7 +38,7 @@ function Profile() {
 
     const handleEditToggle = () => {
         setIsEditing(!isEditing);
-        setFormData({ name: user.name, nickname: user.nickname, password: "" }); // reset
+        setFormData({ name: user.name, nickname: user.nickname, password: "" });
     };
 
     const handleSave = async () => {
@@ -76,6 +80,12 @@ function Profile() {
 
     if (!user) return <p>Chargement...</p>;
 
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/login");
+    };
+
+
     return (
         <div className="profile-container">
             <h2>Profil utilisateur</h2>
@@ -114,6 +124,11 @@ function Profile() {
                     <button onClick={handleEditToggle}>Modifier mon profil</button>
                 </div>
             )}
+
+            <button onClick={handleLogout} style={{ marginTop: "10px" }}>
+                Déconnexion
+            </button>
+
 
             <button onClick={handleDelete} style={{ marginTop: "10px", color: "red" }}>
                 Supprimer mon compte

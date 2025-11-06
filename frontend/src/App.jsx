@@ -10,7 +10,6 @@ function App() {
         <Link to="/">Accueil</Link>
         <Link to="/register">Inscription</Link>
         <Link to="/login">Connexion</Link>
-        <Link to="/logout">Deconnexion</Link>
         <Link to="/profile">Profil</Link>
       </nav>
       <AppRoutes />

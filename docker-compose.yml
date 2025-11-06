@@ -1,0 +1,44 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build: ./backend
+    container_name: backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/monprojet
+      - PORT=3000
+      - JWT_SECRET=Cath1234*
+    depends_on:
+      - mongo
+    volumes:
+      - ./backend:/app       # 📌 Montre le code local dans le conteneur
+      - /app/node_modules    # Évite d’écraser node_modules avec le volume
+    command: npm run dev     # Nodemon se charge de recharger
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:3000/api
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app      # 📌 Montre le code local dans le conteneur
+      - /app/node_modules
+    command: npm run dev     # Vite se charge du rechargement
+
+volumes:
+  mongo_data:
