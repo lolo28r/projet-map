@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import axios from 'axios';
 
 // Fix des icônes par défaut
 delete L.Icon.Default.prototype._getIconUrl;
@@ -12,30 +13,49 @@ L.Icon.Default.mergeOptions({
 
 export default function MapView() {
     const mapRef = useRef(null);
+    const [map, setMap] = useState(null); // On garde la référence de la carte
+    const [places, setPlaces] = useState([]);
 
+    // Initialisation de la carte une seule fois
     useEffect(() => {
-        // Initialisation de la carte
-        const map = L.map(mapRef.current).setView([48.8566, 2.3522], 13);
+        const mapInstance = L.map(mapRef.current).setView([48.8566, 2.3522], 13);
 
-        // TileLayer OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors',
-        }).addTo(map);
+        }).addTo(mapInstance);
 
-        // Marker avec popup
-        L.marker([48.8566, 2.3522])
-            .addTo(map)
-            .bindPopup('Bienvenue à Paris 🇫🇷')
-            .openPopup();
+        setMap(mapInstance);
 
-        // Cleanup à la destruction du composant
-        return () => map.remove();
+        return () => mapInstance.remove(); // cleanup
     }, []);
 
-    return (
-        <div
-            ref={mapRef}
-            style={{ height: '88vh', width: '100%' }}
-        />
-    );
+    // Récupération des lieux
+    useEffect(() => {
+        const fetchPlaces = async () => {
+            try {
+                const res = await axios.get('http://localhost:3000/api/places');
+                setPlaces(res.data);
+            } catch (err) {
+                console.error('Erreur lors du chargement des lieux :', err);
+            }
+        };
+
+        fetchPlaces();
+    }, []);
+
+    // Ajouter les markers après récupération des lieux
+    useEffect(() => {
+        if (!map) return; // map pas encore initialisée
+
+        places.forEach(place => {
+            if (place.location?.coordinates) {
+                const [lng, lat] = place.location.coordinates;
+                L.marker([lat, lng])
+                    .addTo(map)
+                    .bindPopup(`<strong>${place.title}</strong><br/>${place.description}`);
+            }
+        });
+    }, [map, places]);
+
+    return <div ref={mapRef} style={{ height: '88vh', width: '100%' }} />;
 }

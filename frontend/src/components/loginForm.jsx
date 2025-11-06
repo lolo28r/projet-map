@@ -25,8 +25,6 @@ export default function LoginForm() {
             // Sinon, par défaut, rediriger vers '/profile'
             const redirectTo = location.state?.from || "/profile";
             navigate(redirectTo);
-
-            alert('Vous êtes connectés !');
         } catch (err) {
             console.error(err);
             alert(err.response?.data?.error || 'Erreur lors de la connexion');

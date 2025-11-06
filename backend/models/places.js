@@ -1,28 +1,30 @@
-const mongoose = require("mongoose");
-const placesSchema = new mongoose.Schema({
+const mongoose = require('mongoose');
+
+const placeSchema = new mongoose.Schema({
     title: { type: String, required: true },
-    description: { type: String },
+    description: String,
     category: {
         type: String,
-        enum: ['poubelle', 'banc', 'point de vue', 'toilettes', 'fontaine'],
-        required: true
+        enum:
+            [
+                'poubelle',
+                'banc',
+                'point de vue',
+                'toilettes',
+                'fontaine'
+            ]
     },
-    image: { type: String },
+    image: String,
     location: {
         type: { type: String, enum: ['Point'], default: 'Point' },
         coordinates: { type: [Number], required: true }
     },
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    ratings: [
-        {
-            user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-            rating: { type: Number, min: 1, max: 5 }
-        }
-    ],
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    ratings: [{ user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, rating: Number }],
     createdAt: { type: Date, default: Date.now }
 });
 
-// Pour faciliter les recherches géographiques
-placesSchema.index({ location: '2dsphere' });
+// Index géospatial
+placeSchema.index({ location: '2dsphere' });
 
-module.exports = mongoose.model('Place', placesSchema);
+module.exports = mongoose.model('Place', placeSchema);

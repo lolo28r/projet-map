@@ -6,6 +6,7 @@ import Logout from "../components/logout";
 import Profile from "../components/profile";
 import Home from "../components/Home";
 import MapView from "../components/map";
+import PlacesTest from "../components/placesTest";
 
 
 export default function AppRoutes() {
@@ -17,6 +18,7 @@ export default function AppRoutes() {
             <Route path="/logout" element={<Logout />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/map" element={<MapView />} />
+            <Route path="/new-point" element={<PlacesTest />} />
         </Routes>
     );
 };
