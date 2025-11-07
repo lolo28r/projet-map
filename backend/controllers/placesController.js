@@ -24,14 +24,26 @@ exports.getPlaceById = async (req, res) => {
 // 🔹 Créer un nouveau lieu
 exports.createPlace = async (req, res) => {
     try {
-        const { title, description, latitude, longitude } = req.body;
+        console.log("REQ.BODY:", req.body);
+        const { title, description, category, coordinates } = req.body;
+
+        if (!coordinates || coordinates.length !== 2) {
+            return res.status(400).json({ error: 'Coordonnées invalides' });
+        }
+
+        // Forcer conversion en nombres
+        const [lng, lat] = coordinates.map(Number);
+        if (isNaN(lng) || isNaN(lat)) {
+            return res.status(400).json({ error: 'Coordonnées invalides' });
+        }
 
         const place = new Places({
             title,
             description,
+            category,
             location: {
                 type: "Point",
-                coordinates: [longitude, latitude] // GeoJSON: [lng, lat]
+                coordinates: [lng, lat]
             },
             createdBy: req.userId
         });
@@ -42,6 +54,7 @@ exports.createPlace = async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 };
+
 
 // 🔹 Mettre à jour un lieu
 exports.updatePlace = async (req, res) => {

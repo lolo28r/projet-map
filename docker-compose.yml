@@ -21,9 +21,9 @@ services:
     depends_on:
       - mongo
     volumes:
-      - ./backend:/app       # 📌 Montre le code local dans le conteneur
-      - /app/node_modules    # Évite d’écraser node_modules avec le volume
-    command: npm run dev     # Nodemon se charge de recharger
+      - ./backend:/app       
+      - /app/node_modules    
+    command: npm run dev     
 
   frontend:
     build: ./frontend
