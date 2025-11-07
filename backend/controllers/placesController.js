@@ -22,17 +22,20 @@ exports.getPlaceById = async (req, res) => {
 };
 
 // 🔹 Créer un nouveau lieu
+// 🔹 Créer un nouveau lieu
+// 🔹 Créer un nouveau lieu
 exports.createPlace = async (req, res) => {
     try {
         console.log("REQ.BODY:", req.body);
-        const { title, description, category, coordinates } = req.body;
 
-        if (!coordinates || coordinates.length !== 2) {
+        const { title, description, category, location } = req.body;
+
+        // Vérifie que location et coordinates existent
+        if (!location?.coordinates || location.coordinates.length !== 2) {
             return res.status(400).json({ error: 'Coordonnées invalides' });
         }
 
-        // Forcer conversion en nombres
-        const [lng, lat] = coordinates.map(Number);
+        const [lng, lat] = location.coordinates.map(Number);
         if (isNaN(lng) || isNaN(lat)) {
             return res.status(400).json({ error: 'Coordonnées invalides' });
         }
@@ -41,10 +44,7 @@ exports.createPlace = async (req, res) => {
             title,
             description,
             category,
-            location: {
-                type: "Point",
-                coordinates: [lng, lat]
-            },
+            location: { type: "Point", coordinates: [lng, lat] },
             createdBy: req.userId
         });
 
@@ -54,6 +54,8 @@ exports.createPlace = async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 };
+
+
 
 
 // 🔹 Mettre à jour un lieu
