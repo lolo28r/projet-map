@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import "./loginForm.css";
 
 export default function LoginForm() {
     const [form, setForm] = useState({ email: '', password: '' });
@@ -18,11 +19,6 @@ export default function LoginForm() {
             const res = await axios.post('http://localhost:3000/api/users/login', form);
             const token = res.data.token;
             localStorage.setItem('token', token);
-
-            // 🟢 Nouvelle logique :
-            // Redirection vers la page d'origine si elle existe
-            // Sinon, si on vient du login volontairement, rediriger vers '/'
-            // Sinon, par défaut, rediriger vers '/profile'
             const redirectTo = location.state?.from || "/profile";
             navigate(redirectTo);
         } catch (err) {

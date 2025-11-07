@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../App.css"; // on importe le style global
+import "../App.css";
+import "./Home.css";
 
 function Home() {
     return (

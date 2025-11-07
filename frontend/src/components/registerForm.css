@@ -1,0 +1,75 @@
+/* Conteneur du formulaire */
+.register-form,
+.loginForm {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    text-align: center;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+/* Titre du formulaire */
+.register-form h2,
+.loginForm h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #111;
+}
+
+/* Inputs */
+.register-form input,
+.loginForm input {
+    width: 100%;
+    max-width: 360px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    transition: all 0.2s;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+.register-form input:focus,
+.loginForm input:focus {
+    border-color: #000;
+    outline: none;
+}
+
+/* Boutons */
+.register-form button,
+.loginForm button {
+    width: 100%;
+    max-width: 360px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 12px;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.register-form button:hover,
+.loginForm button:hover {
+    background-color: #333;
+}
+
+/* Pour petits écrans */
+@media (max-width: 400px) {
+
+    .register-form input,
+    .loginForm input,
+    .register-form button,
+    .loginForm button {
+        max-width: 100%;
+    }
+}
