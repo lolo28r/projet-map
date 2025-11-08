@@ -39,7 +39,11 @@ exports.login = async (req, res) => {
         );
 
         // Retourner le token
-        res.status(200).json({ token });
+        res.status(200).json({
+            token,
+            _id: user._id,
+            nickname: user.nickname
+        });
 
     } catch (err) {
         console.error(err);

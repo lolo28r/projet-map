@@ -23,13 +23,25 @@ export default function RegisterForm() {
         e.preventDefault();
         try {
             const res = await axios.post('http://localhost:3000/api/users/register', form);
-            alert('Compte crée !');
+
             console.log(res.data);
+            const token = res.data.token;
+            const userId = res.data.user._id;
+
+            localStorage.setItem('token', token);
+            localStorage.setItem('userId', userId);
+
+            alert('Compte créé !');
+            console.log(res.data);
+
+
+            navigate("/profile");
         } catch (err) {
             console.error(err);
-            alert('Erreur lors de la création du compte');
+            alert(err.response?.data?.error || 'Erreur lors de la création du compte');
         }
     };
+
     return (
         <form onSubmit={handleSubmit} className="register-form"><h2>Inscription</h2>
             <input type="text" name="name" placeholder="Nom" onChange={handleChange} required />
