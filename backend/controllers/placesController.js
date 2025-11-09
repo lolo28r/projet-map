@@ -61,45 +61,36 @@ exports.createPlace = async (req, res) => {
         res.status(500).json({ error: "Erreur serveur lors de la création du lieu." });
     }
 };
-
-
 exports.updatePlace = async (req, res) => {
     try {
-        console.log("[updatePlace] REQ.BODY :", req.body);
+        const placeId = req.params.id;
 
-        const place = await Places.findById(req.params.id);
-        if (!place) {
-            return res.status(404).json({ error: "Lieu non trouvé." });
+        // Champs autorisés à la modification
+        const { title, description, category } = req.body;
+        const updates = { title, description, category };
+
+        // Vérifier que le lieu existe
+        const place = await Places.findById(placeId);
+        if (!place) return res.status(404).json({ error: "Lieu non trouvé" });
+
+        // Vérifier que l'utilisateur est propriétaire
+        if (String(place.createdBy) !== req.userId) {
+            return res.status(403).json({ error: "Action non autorisée" });
         }
 
-        if (place.createdBy.toString() !== req.userId) {
-            return res.status(403).json({ error: "Non autorisé à modifier ce lieu." });
-        }
+        // Mettre à jour uniquement les champs autorisés
+        const updatedPlace = await Places.findByIdAndUpdate(
+            placeId,
+            updates,
+            { new: true }
+        ).populate("createdBy", "_id nickname"); // ✅ récupérer les infos du créateur
 
-        const { title, description, category, location } = req.body;
-
-        if (location?.coordinates) {
-            const [lng, lat] = location.coordinates.map(Number);
-            if (isNaN(lng) || isNaN(lat)) {
-                return res.status(400).json({ error: "Coordonnées invalides (non numériques)." });
-            }
-            place.location = { type: "Point", coordinates: [lng, lat] };
-        }
-
-        if (title) place.title = title;
-        if (description) place.description = description;
-        if (category) place.category = category;
-
-        await place.save();
-        console.log("[updatePlace] Lieu mis à jour :", place.title);
-        res.status(200).json(place);
+        res.status(200).json(updatedPlace);
     } catch (err) {
         console.error("[updatePlace] Erreur :", err);
-        res.status(500).json({ error: "Erreur serveur lors de la mise à jour du lieu." });
+        res.status(500).json({ error: "Erreur serveur lors de la modification du lieu." });
     }
 };
-
-
 exports.deletePlace = async (req, res) => {
     try {
         const place = await Places.findById(req.params.id);

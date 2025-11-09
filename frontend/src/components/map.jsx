@@ -128,6 +128,24 @@ export default function MapView() {
             alert(err.response?.data?.error || "Erreur lors de l'ajout du lieu");
         }
     };
+    const handleEditPlace = async (updatedData) => {
+        try {
+            const { title, description, category } = updatedData; // uniquement champs modifiables
+            const res = await axios.put(
+                `http://localhost:3000/api/places/${selectedPlace._id}`,
+                { title, description, category },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            setPlaces(places.map(p => p._id === res.data._id ? res.data : p));
+            setSelectedPlace(res.data);
+            console.log("[MapView] Lieu modifié :", res.data);
+        } catch (err) {
+            console.error("[MapView] Erreur modification lieu :", err);
+            alert(err.response?.data?.error || "Erreur lors de la modification du lieu");
+        }
+    };
+
 
     return (
         <div className="map-container">
@@ -153,18 +171,16 @@ export default function MapView() {
                     }}
                 />
             )}
-
             {selectedPlace && (
                 <PlacePopup
                     place={selectedPlace}
                     currentUserId={currentUserId}
-                    onEdit={(place) => console.log("[MapView] Modifier :", place)}
+                    onEdit={handleEditPlace} // 🔹 ici
                     onDelete={async (id) => {
                         try {
                             await axios.delete(`http://localhost:3000/api/places/${id}`, {
                                 headers: { Authorization: `Bearer ${token}` },
                             });
-                            console.log("[MapView] Lieu supprimé :", id);
                             setPlaces(places.filter(p => p._id !== id));
                             setSelectedPlace(null);
                         } catch (err) {
@@ -172,10 +188,7 @@ export default function MapView() {
                             alert("Erreur lors de la suppression du lieu.");
                         }
                     }}
-                    onClose={() => {
-                        console.log("[MapView] Fermeture popup");
-                        setSelectedPlace(null);
-                    }}
+                    onClose={() => setSelectedPlace(null)}
                 />
             )}
         </div>
