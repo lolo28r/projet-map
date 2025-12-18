@@ -95,7 +95,7 @@ export default function PlacePopup({ place, onEdit, onDelete, onClose }) {
                                     </span>
                                 ))}
                             </div>
-                        </div>;
+                        </div>
 
 
 
