@@ -4,6 +4,7 @@ import { UserContext } from "../context/userContext";
 
 const categories = ["poubelle", "banc", "point de vue", "toilettes", "fontaine"];
 
+
 export default function PlacePopup({ place, onEdit, onDelete, onClose }) {
     const { userId: currentUserId } = useContext(UserContext);
     const isOwner = String(place.createdBy?._id) === String(currentUserId);
@@ -74,6 +75,11 @@ export default function PlacePopup({ place, onEdit, onDelete, onClose }) {
                         <p><strong>Description :</strong> {place.description}</p>
                         <p><strong>Ajouté par :</strong> {place.createdBy?.nickname || "Anonyme"}</p>
                         <p><strong>Date :</strong> {new Date(place.createdAt).toLocaleDateString()}</p>
+                        {place.address && (
+                            <p>
+                                <strong>Adresse :</strong> {place.address.fullAddress}
+                            </p>
+                        )}
 
                         <div className="rating">
                             <p>

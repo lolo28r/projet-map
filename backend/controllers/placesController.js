@@ -23,19 +23,14 @@ exports.getPlaceById = async (req, res) => {
         res.status(500).json({ error: "Erreur serveur lors de la récupération du lieu." });
     }
 };
-
 exports.createPlace = async (req, res) => {
     try {
-        console.log("[createPlace] REQ.BODY :", req.body);
-
         const { title, description, category, location } = req.body;
 
-        // Validation des champs requis
         if (!title || !description || !category) {
             return res.status(400).json({ error: "Titre, description et catégorie sont requis." });
         }
 
-        // Validation des coordonnées
         if (!location?.coordinates || location.coordinates.length !== 2) {
             return res.status(400).json({ error: "Coordonnées invalides ou manquantes." });
         }
@@ -45,17 +40,29 @@ exports.createPlace = async (req, res) => {
             return res.status(400).json({ error: "Coordonnées invalides (non numériques)." });
         }
 
+        // 🔹 Reverse geocoding côté serveur
+        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+        const data = await response.json();
+        const address = {
+            road: data.address?.road || "",
+            postcode: data.address?.postcode || "",
+            city: data.address?.city || data.address?.town || data.address?.village || "",
+            country: data.address?.country || "",
+            fullAddress: data.display_name || "",
+        };
+
         const place = new Places({
             title,
             description,
             category,
             location: { type: "Point", coordinates: [lng, lat] },
+            address,
             createdBy: req.userId
         });
 
         await place.save();
-        console.log("[createPlace] Lieu créé avec succès :", place.title);
         res.status(201).json(place);
+
     } catch (err) {
         console.error("[createPlace] Erreur :", err);
         res.status(500).json({ error: "Erreur serveur lors de la création du lieu." });

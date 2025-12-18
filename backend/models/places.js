@@ -19,6 +19,13 @@ const placeSchema = new mongoose.Schema({
         type: { type: String, enum: ['Point'], default: 'Point' },
         coordinates: { type: [Number], required: true }
     },
+    address: {
+        road: String,
+        postcode: String,
+        city: String,
+        country: String,
+        fullAddress: String
+    },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     ratings: [{ user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, rating: Number }],
     averageRating: { type: Number, default: 0 },
