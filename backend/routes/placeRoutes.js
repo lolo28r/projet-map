@@ -9,6 +9,7 @@ router.get('/:id', placeController.getPlaceById);
 
 // Routes protégées
 router.post('/', verifyToken, placeController.createPlace);
+router.post('/:id/rate', verifyToken, placeController.ratePlace);
 router.put('/:id', verifyToken, placeController.updatePlace);
 router.delete('/:id', verifyToken, placeController.deletePlace);
 

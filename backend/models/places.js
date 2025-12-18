@@ -21,6 +21,7 @@ const placeSchema = new mongoose.Schema({
     },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     ratings: [{ user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, rating: Number }],
+    averageRating: { type: Number, default: 0 },
     createdAt: { type: Date, default: Date.now }
 });
 

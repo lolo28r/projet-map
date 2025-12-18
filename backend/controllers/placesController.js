@@ -110,3 +110,37 @@ exports.deletePlace = async (req, res) => {
         res.status(500).json({ error: "Erreur serveur lors de la suppression du lieu." });
     }
 };
+exports.ratePlace = async (req, res) => {
+    try {
+        const placeId = req.params.id;
+        const { rating } = req.body;
+
+        if (rating < 0.5 || rating > 5) {
+            return res.status(400).json({ error: "La note doit être entre 0,5 et 5" });
+        }
+
+        const place = await Places.findById(placeId);
+        if (!place) {
+            return res.status(404).json({ error: "Lieu non trouvé" });
+        }
+
+
+        const existingRating = place.ratings.find(
+            r => r.user.toString() === req.userId
+        );
+
+        if (existingRating) {
+            existingRating.rating = rating; // update
+        } else {
+            place.ratings.push({ user: req.userId, rating });
+        }
+
+        await place.save();
+
+        res.status(200).json(place);
+    } catch (err) {
+        console.error("[ratePlace] Erreur :", err);
+        res.status(500).json({ error: "Erreur serveur lors du rating" });
+    }
+};
+

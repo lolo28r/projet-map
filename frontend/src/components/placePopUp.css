@@ -114,3 +114,19 @@
         transform: translateY(0);
     }
 }
+
+.rating-stars {
+    display: flex;
+    gap: 5px;
+    font-size: 22px;
+}
+
+.rating-stars .filled {
+    color: gold;
+    cursor: pointer;
+}
+
+.rating-stars .empty {
+    color: gray;
+    cursor: pointer;
+}
