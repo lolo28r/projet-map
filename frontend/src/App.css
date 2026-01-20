@@ -6,25 +6,60 @@ body,
   padding: 0;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-}
-
 #root {
-  flex: 1;
+  min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
+/* NAVBAR */
 .nav {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 1.5rem;
-  padding: 1rem;
+  padding: 1rem 2rem;
   background: #fff;
+  border-bottom: 1px solid #eee;
   position: sticky;
   top: 0;
   z-index: 1000;
+}
+
+/* GAUCHE */
+.nav-left a {
+  font-weight: 600;
+  text-decoration: none;
+  color: #000;
+}
+
+/* DROITE */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+/* Bouton logout */
+.logout-btn {
+  background: none;
+  border: none;
+  color: #000;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+.logout-btn:hover {
+  text-decoration: underline;
 }
