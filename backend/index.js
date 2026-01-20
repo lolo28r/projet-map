@@ -13,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/users', userRoutes);
 app.use('/api/places', placeRoutes);
+app.use("/uploads", express.static("uploads"));
 
 
 app.get('/', (req, res) => {

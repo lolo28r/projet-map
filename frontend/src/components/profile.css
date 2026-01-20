@@ -4,80 +4,121 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.8rem;
     text-align: center;
-    padding: 2rem;
+    padding: 3rem 2rem;
     box-sizing: border-box;
+    background-color: #ffffff;
 }
 
+/* TITRES & TEXTES */
 .profile-container h2 {
-    font-weight: 600;
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 0.3rem;
     color: #111;
 }
 
 .profile-container p {
-    font-size: 1rem;
-    color: #555;
-    margin: 0.25rem 0;
+    font-size: 1.05rem;
+    color: #666;
+    margin: 0.2rem 0;
 }
 
-.profile-container button {
-    margin-top: 1rem;
-    background-color: #000;
-    color: #fff;
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 12px;
+/* AVATAR */
+.profile-container .profile-avatar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
     cursor: pointer;
+}
+
+.profile-container .profile-avatar {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #000;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.profile-container .profile-avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+/* PLACEHOLDER AVATAR */
+.profile-container .profile-avatar.placeholder {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ffffff, #ffffff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #999;
+    font-size: 15px;
     font-weight: 500;
-    font-size: 1rem;
-    transition: all 0.2s ease;
+    border: 2px dashed #bbb;
 }
 
-.profile-container button:hover {
-    background-color: #333;
-}
-
-/* Inputs du mode édition */
+/* INPUTS */
 .profile-container input {
     width: 100%;
-    max-width: 400px;
-    padding: 0.8rem 1rem;
+    max-width: 420px;
+    padding: 0.9rem 1.1rem;
     margin: 0.5rem 0;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+    border: 1px solid #ffffff;
+    border-radius: 12px;
     font-size: 1rem;
+    background-color: #fff;
     box-sizing: border-box;
-    transition: all 0.2s ease;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
 .profile-container input:focus {
     outline: none;
     border-color: #000;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
 }
 
-/* Conteneur des boutons en édition */
+/* BOUTONS */
+.profile-container button {
+    margin-top: 1rem;
+    background-color: #000;
+    color: #fff;
+    padding: 0.85rem 1.6rem;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease;
+}
+
+.profile-container button:hover {
+    background-color: #222;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* MODE ÉDITION */
 .profile-container .edit-buttons {
     display: flex;
     gap: 1rem;
     justify-content: center;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
 }
 
-/* Boutons sauvegarder / annuler */
 .profile-container .edit-buttons button {
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: 500;
+    padding: 0.8rem 1.6rem;
+    border-radius: 14px;
     font-size: 1rem;
-    transition: all 0.2s ease;
 }
 
+/* SAUVEGARDER */
 .profile-container .edit-buttons button.save {
     background-color: #007bff;
     color: #fff;
@@ -87,28 +128,29 @@
     background-color: #0056b3;
 }
 
+/* ANNULER */
 .profile-container .edit-buttons button.cancel {
-    background-color: #ccc;
+    background-color: #e0e0e0;
     color: #333;
 }
 
 .profile-container .edit-buttons button.cancel:hover {
-    background-color: #aaa;
+    background-color: #cfcfcf;
 }
 
-/* Boutons Déconnexion / Supprimer compte */
+/* DÉCONNEXION */
 .profile-container button.logout {
     background-color: #444;
-    color: #fff;
 }
 
 .profile-container button.logout:hover {
     background-color: #222;
 }
 
+/* SUPPRIMER COMPTE */
 .profile-container button.delete {
     background-color: #fff;
-    border: 1px solid red;
+    border: 1.5px solid red;
     color: red;
 }
 
