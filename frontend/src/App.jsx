@@ -20,6 +20,8 @@ function Navbar() {
     <nav className="nav">
       <div className="nav-left">
         <Link to="/">Accueil</Link>
+        <Link to="/ranking">Classement</Link>
+
       </div>
 
       <div className="nav-right">
@@ -31,6 +33,7 @@ function Navbar() {
         ) : (
           <>
             <Link to="/profile">Mon compte</Link>
+
             <button className="logout-btn" onClick={handleLogout}>
               Déconnexion
             </button>

@@ -131,16 +131,20 @@ exports.ratePlace = async (req, res) => {
             return res.status(404).json({ error: "Lieu non trouvé" });
         }
 
-
         const existingRating = place.ratings.find(
             r => r.user.toString() === req.userId
         );
 
         if (existingRating) {
-            existingRating.rating = rating; // update
+            existingRating.rating = rating;
         } else {
             place.ratings.push({ user: req.userId, rating });
         }
+
+        // ⭐ RECALCUL MOYENNE
+        place.averageRating =
+            place.ratings.reduce((sum, r) => sum + r.rating, 0) /
+            place.ratings.length;
 
         await place.save();
 
@@ -150,4 +154,25 @@ exports.ratePlace = async (req, res) => {
         res.status(500).json({ error: "Erreur serveur lors du rating" });
     }
 };
+exports.getRanking = async (req, res) => {
+    try {
+        const { category, limit = 10 } = req.query;
+
+        const filter = {};
+        if (category) {
+            filter.category = category;
+        }
+
+        const places = await Places.find(filter)
+            .sort({ averageRating: -1 })
+            .limit(Number(limit))
+            .populate("createdBy", "_id nickname");
+
+        res.status(200).json(places);
+    } catch (err) {
+        console.error("[getRanking] Erreur :", err);
+        res.status(500).json({ error: "Erreur serveur classement" });
+    }
+};
+
 

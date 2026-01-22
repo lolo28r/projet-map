@@ -7,6 +7,8 @@ import Profile from "../components/profile";
 import Home from "../components/Home";
 import MapView from "../components/map";
 import PlacesTest from "../components/addPoint";
+import Ranking from "../components/Ranking";
+
 
 
 export default function AppRoutes() {
@@ -17,6 +19,8 @@ export default function AppRoutes() {
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/ranking" element={<Ranking />} />
+
             <Route
                 path="/map"
                 element={

@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./Profile.css";
+import AvatarCrop from "./AvatarCrop";
+
 
 function Profile() {
     console.log("🔵 Profile component rendu");
 
     const navigate = useNavigate();
     const location = useLocation();
+    const [showCrop, setShowCrop] = useState(false);
+
 
     const [user, setUser] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -137,7 +141,41 @@ function Profile() {
                     <input name="nickname" value={formData.nickname} onChange={handleChange} placeholder="Pseudo" />
                     <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Nouveau mot de passe" />
 
-                    <input type="file" accept="image/*" onChange={handleAvatarChange} />
+                    <button type="button" onClick={() => document.getElementById("profileFileInput").click()}>
+                        Changer la photo
+                    </button>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        id="profileFileInput"
+                        style={{ display: "none" }}
+                        onChange={(e) => {
+                            const file = e.target.files[0];
+                            if (!file) return;
+                            setShowCrop(true);
+                            setAvatar(file); // temporaire, pour prévisualiser
+                            setUser(prev => ({
+                                ...prev,
+                                profileImage: URL.createObjectURL(file)
+                            }));
+                        }}
+                    />
+
+                    {showCrop && (
+                        <AvatarCrop
+                            image={user.profileImage} // <-- important
+                            onValidate={(file) => {
+                                setAvatar(file);
+                                setUser(prev => ({
+                                    ...prev,
+                                    profileImage: URL.createObjectURL(file)
+                                }));
+                                setShowCrop(false);
+                            }}
+                            onCancel={() => setShowCrop(false)}
+                        />
+                    )}
+
 
                     <button onClick={handleSave}>Sauvegarder</button>
                     <button onClick={handleEditToggle}>Annuler</button>

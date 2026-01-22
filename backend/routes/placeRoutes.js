@@ -5,6 +5,7 @@ const verifyToken = require('../middlewares/verifyToken');
 
 // Routes publiques
 router.get('/', placeController.getAllPlaces);
+router.get("/ranking", placeController.getRanking);
 router.get('/:id', placeController.getPlaceById);
 
 // Routes protégées
