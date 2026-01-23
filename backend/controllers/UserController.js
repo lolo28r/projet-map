@@ -2,6 +2,7 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const path = require("path");
+const Place = require('../models/places');
 exports.getAllUsers = async (req, res) => {
 
     try {
@@ -69,14 +70,18 @@ exports.login = async (req, res) => {
 exports.getUserById = async (req, res) => {
     try {
         const user = await User.findById(req.params.id).select('-password');
-        if (!user) {
-            return res.status(404).json({ error: 'user not found' });
-        }
-        res.status(200).json(user);
-    } catch (error) {
+        if (!user) return res.status(404).json({ error: 'Utilisateur introuvable' });
+
+        // récupérer contributions
+        const contributions = await Place.find({ createdBy: user._id }).sort({ createdAt: -1 });
+
+        res.status(200).json({ user, contributions });
+    } catch (err) {
+        console.error(err);
         res.status(500).json({ error: err.message });
     }
 };
+
 exports.createUser = async (req, res) => {
     try {
         console.log("🟢 REGISTER req.body =", req.body);
@@ -189,5 +194,19 @@ exports.getMe = async (req, res) => {
         res.status(200).json(user);
     } catch (err) {
         res.status(500).json({ error: err.message });
+    }
+};
+
+exports.getContributions = async (req, res) => {
+    try {
+        const userId = req.params.id; // l'id de l'utilisateur depuis l'URL
+
+        // On cherche toutes les places créées par cet utilisateur
+        const contributions = await Place.find({ createdBy: userId }).sort({ createdAt: -1 });
+
+        res.status(200).json(contributions);
+    } catch (err) {
+        console.error("❌ getContributions ERROR", err);
+        res.status(500).json({ error: "Erreur serveur" });
     }
 };

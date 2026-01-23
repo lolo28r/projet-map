@@ -1,0 +1,31 @@
+.star-rating {
+    display: flex;
+    gap: 2px;
+    margin-top: 0.2rem;
+}
+
+.star {
+    font-size: 0.9rem;
+    color: #e5e7eb;
+    /* gris clair */
+}
+
+/* étoiles pleines */
+.star.full {
+    color: #fbbf24;
+}
+
+/* demi-étoile */
+.star.half {
+    position: relative;
+    color: #e5e7eb;
+}
+
+.star.half::before {
+    content: "★";
+    position: absolute;
+    left: 0;
+    width: 50%;
+    overflow: hidden;
+    color: #fbbf24;
+}

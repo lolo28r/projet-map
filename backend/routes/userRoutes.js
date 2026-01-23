@@ -4,6 +4,7 @@ const verifyToken = require('../middlewares/verifyToken');
 const userController = require('../controllers/UserController');
 const upload = require("../middlewares/upload.middleware");
 
+
 // 🔐 Connexion
 router.post('/login', userController.login);
 
@@ -19,6 +20,9 @@ router.get('/me', verifyToken, userController.getMe);
 router.get('/', verifyToken, userController.getAllUsers);
 router.get('/:id', verifyToken, userController.getUserById);
 router.delete('/:id', verifyToken, userController.deleteUser);
+router.get('/:id/contributions', verifyToken, userController.getContributions);
+
+
 
 router.patch(
     "/:id",

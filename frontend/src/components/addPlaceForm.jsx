@@ -1,16 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./AddPlaceForm.css";
 
-const categories = ["poubelle", "banc", "point de vue", "toilettes", "fontaine"];
+export default function AddPlaceForm({ onSubmit, onCancel, coordinates, categories = [] }) {
+    const [form, setForm] = useState({ title: "", description: "", category: "" });
 
-export default function AddPlaceForm({ onSubmit, onCancel, coordinates }) {
-    const [form, setForm] = useState({ title: "", description: "", category: categories[0] });
+    // Initialiser la catégorie par défaut dès que les catégories arrivent
+    useEffect(() => {
+        if (categories.length > 0 && !form.category) {
+            setForm(prev => ({ ...prev, category: categories[0] }));
+        }
+    }, [categories]);
 
     const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
     const handleSubmit = e => {
         e.preventDefault();
         if (!coordinates || coordinates.some(c => c == null || isNaN(c))) return;
+
         const [lng, lat] = coordinates;
         onSubmit({ ...form, coordinates: [Number(lng), Number(lat)] });
     };

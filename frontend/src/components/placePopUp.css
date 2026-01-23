@@ -130,3 +130,37 @@
     color: gray;
     cursor: pointer;
 }
+
+.rating-block {
+    margin: 1rem 0;
+}
+
+.average-rating,
+.user-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+}
+
+.clickable-stars .star {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: gray;
+    transition: color 0.2s;
+}
+
+.clickable-stars .star.active,
+.average-rating .star.active {
+    color: gold;
+}
+
+.ratings-count {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.no-rating {
+    font-size: 0.85rem;
+    color: #888;
+}

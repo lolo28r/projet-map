@@ -7,11 +7,11 @@ const placeSchema = new mongoose.Schema({
         type: String,
         enum:
             [
-                'poubelle',
-                'banc',
-                'point de vue',
-                'toilettes',
-                'fontaine'
+                'Poubelle',
+                'Banc',
+                'Point de vue',
+                'WC',
+                'Fontaine'
             ]
     },
     image: String,

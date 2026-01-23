@@ -1,4 +1,6 @@
-const Places = require('../models/places');
+const Places = require('../models/places.js');
+
+
 
 
 exports.getAllPlaces = async (req, res) => {
@@ -98,6 +100,17 @@ exports.updatePlace = async (req, res) => {
         res.status(500).json({ error: "Erreur serveur lors de la modification du lieu." });
     }
 };
+
+exports.getCategories = (req, res) => {
+    try {
+        const categories = Places.schema.path('category').enumValues;
+        res.json(categories);
+    } catch (err) {
+        console.error("❌ getCategories ERROR", err);
+        res.status(500).json({ error: "Impossible de récupérer les catégories" });
+    }
+};
+
 exports.deletePlace = async (req, res) => {
     try {
         const place = await Places.findById(req.params.id);
@@ -174,5 +187,4 @@ exports.getRanking = async (req, res) => {
         res.status(500).json({ error: "Erreur serveur classement" });
     }
 };
-
 
